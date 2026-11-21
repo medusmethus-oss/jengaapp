@@ -72,13 +72,13 @@ with tab1:
     map_col, ctrl_col = st.columns([1.45, 1.0])
     with map_col:
         st.subheader("Click a Nairobi Region Bubble to Load Market Benchmarks")
-        fig_map = px.scatter_mapbox(
+        fig_map = px.scatter_map(
             NAIROBI_ZONES, lat="Lat", lon="Lon",
             size="Sale_Price_Per_Sqm_KES", color="Monthly_Rent_Per_Sqm_KES",
             hover_name="Region",
             hover_data={"Lat": False, "Lon": False, "Land_Per_Acre_KES": ":,.0f", "Build_Cost_Per_Sqm_KES": ":,.0f", "Sale_Price_Per_Sqm_KES": ":,.0f", "Monthly_Rent_Per_Sqm_KES": ":,.0f"},
             color_continuous_scale="Viridis", size_max=28, zoom=10.6,
-            center={"lat": -1.285, "lon": 36.845}, mapbox_style="open-street-map", height=410
+            center={"lat": -1.285, "lon": 36.845}, map_style="open-street-map", height=410
         )
         fig_map.update_layout(margin=dict(l=0, r=0, t=10, b=0))
         map_event = st.plotly_chart(fig_map, use_container_width=True, on_select="rerun", selection_mode="points")
