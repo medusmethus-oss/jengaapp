@@ -36,7 +36,7 @@ class RealEstateLedgerFeatureEngineer(BaseEstimator, TransformerMixin):
 
 @st.cache_resource
 def load_bundle():
-    return joblib.load(os.path.join("JengaApp_Consultancy_Deliverables", "zamil_phase2_engine.joblib"))
+    return joblib.load(os.path.join("Zamil_Consultancy_Deliverables", "zamil_phase2_engine.joblib"))
 
 bundle = load_bundle()
 
