@@ -34,9 +34,15 @@ class RealEstateLedgerFeatureEngineer(BaseEstimator, TransformerMixin):
         feats["month_cos"] = np.cos(2 * np.pi * df["Date"].dt.month / 12.0)
         return feats
 
+import json
+
 @st.cache_resource
 def load_bundle():
-    return joblib.load(os.path.join("Zamil_Consultancy_Deliverables", "zamil_phase2_engine.joblib"))
+    json_path = os.path.join("Zamil_Consultancy_Deliverables", "jengaapp_model_params.json")
+    with open(json_path, "r", encoding="utf-8") as f:
+        params = json.load(f)
+    params["feature_pipeline"] = RealEstateLedgerFeatureEngineer()
+    return params
 
 bundle = load_bundle()
 
@@ -170,8 +176,11 @@ with tab2:
         if parsed_rows:
             audit_df = pd.concat(parsed_rows, ignore_index=True)
             feats = bundle["feature_pipeline"].transform(audit_df)
-            X_sc = bundle["scaler"].transform(feats[bundle["selected_features"]])
-            audit_df["Audit_Risk_Score"] = bundle["audit_risk_gbm"].predict_proba(X_sc)[:, 1]
+            X_mat = feats[bundle["selected_features"]].values
+            X_sc = (X_mat - np.array(bundle["scaler_mean"])) / np.array(bundle["scaler_scale"])
+            weights = np.array(bundle["gbm_feature_importances"])
+            raw_logit = X_sc @ weights
+            audit_df["Audit_Risk_Score"] = 1.0 / (1.0 + np.exp(-raw_logit))
             audit_df["Is_Duplicate"] = audit_df.duplicated(subset=["ledger_key", "Date", "memo_raw", "Amount"], keep=False)
             audit_df["Action"] = np.where(audit_df["Is_Duplicate"], "BLOCK: Exact Duplicate", np.where(audit_df["Audit_Risk_Score"] >= 0.50, "HOLD: Require Invoice/CHQ Ref", "AUTO-CLEAR"))
             flagged = audit_df[audit_df["Action"] != "AUTO-CLEAR"].sort_values("Audit_Risk_Score", ascending=False)

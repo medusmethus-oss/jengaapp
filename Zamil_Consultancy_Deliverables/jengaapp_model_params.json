@@ -1,0 +1,77 @@
+{
+  "app_name": "JengaApp",
+  "selected_features": [
+    "is_wip",
+    "is_bill",
+    "month_cos",
+    "has_cheque_or_inv",
+    "is_multiple",
+    "memo_len",
+    "month_sin"
+  ],
+  "scaler_mean": [
+    0.8801150895140665,
+    0.07800511508951406,
+    -0.22049147972911565,
+    0.008951406649616368,
+    0.1307544757033248,
+    14.759910485933505,
+    -0.1113982711198376
+  ],
+  "scaler_scale": [
+    0.3248269057878568,
+    0.2681796358961391,
+    0.6755284970551702,
+    0.09418746715253348,
+    0.3371316401450233,
+    8.76914589256456,
+    0.6947194989524614
+  ],
+  "gbm_feature_importances": [
+    0.10023454504256406,
+    0.3286214590300398,
+    0.030543433704264995,
+    0.012888305851786106,
+    0.1371352066843167,
+    0.3704721076492534,
+    0.020104942037774885
+  ],
+  "baseline_unit_cost_kes": 6350425.626666666,
+  "psi_baseline": [
+    {
+      "Feature": "has_cheque_or_inv",
+      "PSI_Score": 0.0023384131945425814,
+      "Drift_Status": "Stable"
+    },
+    {
+      "Feature": "memo_len",
+      "PSI_Score": 0.008256439274913388,
+      "Drift_Status": "Stable"
+    },
+    {
+      "Feature": "is_multiple",
+      "PSI_Score": 0.03950140555226849,
+      "Drift_Status": "Stable"
+    },
+    {
+      "Feature": "is_wip",
+      "PSI_Score": 0.12364023257255391,
+      "Drift_Status": "Moderate Shift (Monitor)"
+    },
+    {
+      "Feature": "month_sin",
+      "PSI_Score": 0.4671407179793829,
+      "Drift_Status": "Severe Drift (Retrain)"
+    },
+    {
+      "Feature": "is_bill",
+      "PSI_Score": 0.525133400406881,
+      "Drift_Status": "Severe Drift (Retrain)"
+    },
+    {
+      "Feature": "month_cos",
+      "PSI_Score": 0.8309075152673293,
+      "Drift_Status": "Severe Drift (Retrain)"
+    }
+  ]
+}
